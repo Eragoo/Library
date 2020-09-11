@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -17,7 +18,7 @@ public class Book {
     private Long id;
     private String name;
     private String author;
-    private Date publicationDate;
+    private LocalDate publicationDate;
     private int amount;
 
     @ManyToMany

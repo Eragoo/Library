@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GenreDto {
-    private Long id;
+    private long id;
     private String name;
 }
