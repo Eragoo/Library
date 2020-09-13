@@ -44,9 +44,9 @@ public class BookService {
     }
 
     private Optional<Book> findEqualBook(BookCommand bookCommand, Set<Genre> bookGenres) {
-        return bookRepository.findByNameAndAuthorIdAndPublicationDateAndGenresIn(bookCommand.getName(),
+        return bookRepository.findByNameAndAuthorIdAndPublicationYearAndGenresIn(bookCommand.getName(),
                 bookCommand.getAuthorId(),
-                bookCommand.getPublicationDate(),
+                bookCommand.getPublicationYear(),
                 bookGenres);
     }
 

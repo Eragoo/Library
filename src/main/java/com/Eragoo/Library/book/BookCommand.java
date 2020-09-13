@@ -3,7 +3,6 @@ package com.Eragoo.Library.book;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Setter
@@ -11,7 +10,7 @@ import java.util.Set;
 public class BookCommand {
     private String name;
     private Long authorId;
-    private LocalDate publicationDate;
+    private Integer publicationYear;
     private Integer amount;
     private Set<Long> genreIds;
 }

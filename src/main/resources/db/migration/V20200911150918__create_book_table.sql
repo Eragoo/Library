@@ -17,7 +17,7 @@ create table book
     id               bigint generated always as identity,
     name             text   not null,
     author_id        bigint not null,
-    publication_date date   not null,
+    publication_year int    not null,
     amount           int    not null,
     primary key (id),
     foreign key ("author_id") references "author"

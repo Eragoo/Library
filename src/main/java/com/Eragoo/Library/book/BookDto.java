@@ -5,7 +5,6 @@ import com.Eragoo.Library.genre.GenreDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -14,7 +13,7 @@ public class BookDto {
     private long id;
     private String name;
     private AuthorDto author;
-    private LocalDate publicationDate;
+    private Integer publicationYear;
     private int amount;
     private Set<GenreDto> genres;
 }
