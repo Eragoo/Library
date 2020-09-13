@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Set;
+import java.util.List;
 
 import static com.Eragoo.Library.book.BookSpecification.*;
 
@@ -12,10 +12,10 @@ import static com.Eragoo.Library.book.BookSpecification.*;
 @Setter
 public class BookFilteringCommand {
     private String name;
-    private Set<Long> authorIds;
+    private List<Long> authorIds;
     private Integer publicationYear;
     private Integer amount;
-    private Set<Long> genreIds;
+    private List<Long> genreIds;
 
     Specification<Book> getSpecification() {
         return getFilteredByName(name)
