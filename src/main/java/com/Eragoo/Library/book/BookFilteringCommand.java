@@ -17,7 +17,7 @@ public class BookFilteringCommand {
     private Integer amount;
     private List<Long> genreIds;
 
-    Specification<Book> getSpecification() {
+    Specification<Book> toSpecification() {
         return getFilteredByName(name)
                 .and(getFilteredByAuthors(authorIds))
                 .and(getFilteredByGenres(genreIds))

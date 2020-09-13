@@ -28,11 +28,11 @@ public class BookService {
         Author author = findAuthor(bookCommand.getAuthorId());
 
         Set<Genre> bookGenres = genreRepository.findAllByIdIn(bookCommand.getGenreIds());
-        Optional<Book> existedBook = findEqualBook(bookCommand, bookGenres);
+        Optional<Book> equalBook = findEqualBook(bookCommand, bookGenres);
 
         Book book;
-        if (existedBook.isPresent()) {
-            book = existedBook.get();
+        if (equalBook.isPresent()) {
+            book = equalBook.get();
             book.setAmount(book.getAmount() + bookCommand.getAmount());
         } else {
             book = bookMapper.commandToEntity(bookCommand);
@@ -65,7 +65,7 @@ public class BookService {
     @Transactional
     public BookDto lease(long id) {
         Book book = findBook(id);
-        if (book.getAmount() < 0) {
+        if (book.getAmount() < 1) {
             throw new ConflictException("Can't lease this book due to it's amount");
         }
         book.setAmount(book.getAmount() - 1);
@@ -74,7 +74,7 @@ public class BookService {
     }
 
     public List<BookDto> getAll(BookFilteringCommand command) {
-        Specification<Book> specification = command.getSpecification();
+        Specification<Book> specification = command.toSpecification();
         return bookRepository.findAll(specification)
                 .stream()
                 .map(bookMapper::entityToDto)
