@@ -7,11 +7,14 @@ import com.Eragoo.Library.error.exception.NotFoundException;
 import com.Eragoo.Library.genre.Genre;
 import com.Eragoo.Library.genre.GenreRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -49,7 +52,7 @@ public class BookService {
 
     private Author findAuthor(long id) {
         return authorRepository.findById(id)
-                .orElseThrow(()->new ConflictException("Author with id " + id + " not found"));
+                .orElseThrow(() -> new ConflictException("Author with id " + id + " not found"));
     }
 
     @Transactional
@@ -59,6 +62,7 @@ public class BookService {
         return bookMapper.entityToDto(book);
     }
 
+    @Transactional
     public BookDto lease(long id) {
         Book book = findBook(id);
         if (book.getAmount() < 0) {
@@ -67,6 +71,14 @@ public class BookService {
         book.setAmount(book.getAmount() - 1);
 
         return bookMapper.entityToDto(book);
+    }
+
+    public List<BookDto> getAll(BookFilteringCommand command) {
+        Specification<Book> specification = command.getSpecification();
+        return bookRepository.findAll(specification)
+                .stream()
+                .map(bookMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
     private Book findBook(long id) {
