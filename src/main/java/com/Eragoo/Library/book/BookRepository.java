@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Optional<Book> findByNameAndAuthorAndPublicationDateAndGenresIn(String name,
-                                                                  String author,
+    Optional<Book> findByNameAndAuthorIdAndPublicationDateAndGenresIn(String name,
+                                                                  Long author,
                                                                   LocalDate pubDate,
                                                                   Set<Genre> genres);
 }

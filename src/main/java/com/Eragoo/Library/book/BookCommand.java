@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 public class BookCommand {
     private String name;
-    private String author;
+    private Long authorId;
     private LocalDate publicationDate;
     private Integer amount;
     private Set<Long> genreIds;

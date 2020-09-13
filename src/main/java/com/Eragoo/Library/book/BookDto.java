@@ -1,5 +1,6 @@
 package com.Eragoo.Library.book;
 
+import com.Eragoo.Library.author.AuthorDto;
 import com.Eragoo.Library.genre.GenreDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.Set;
 public class BookDto {
     private long id;
     private String name;
-    private String author;
+    private AuthorDto author;
     private LocalDate publicationDate;
     private int amount;
     private Set<GenreDto> genres;

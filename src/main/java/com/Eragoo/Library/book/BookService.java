@@ -1,5 +1,7 @@
 package com.Eragoo.Library.book;
 
+import com.Eragoo.Library.author.Author;
+import com.Eragoo.Library.author.AuthorRepository;
 import com.Eragoo.Library.error.exception.ConflictException;
 import com.Eragoo.Library.error.exception.NotFoundException;
 import com.Eragoo.Library.genre.Genre;
@@ -17,13 +19,13 @@ public class BookService {
     private BookRepository bookRepository;
     private BookMapper bookMapper;
     private GenreRepository genreRepository;
+    private AuthorRepository authorRepository;
 
     public BookDto createOrAddIfExist(BookCommand bookCommand) {
+        Author author = findAuthor(bookCommand.getAuthorId());
+
         Set<Genre> bookGenres = genreRepository.findAllByIdIn(bookCommand.getGenreIds());
-        Optional<Book> existedBook = bookRepository.findByNameAndAuthorAndPublicationDateAndGenresIn(bookCommand.getName(),
-                bookCommand.getAuthor(),
-                bookCommand.getPublicationDate(),
-                bookGenres);
+        Optional<Book> existedBook = findEqualBook(bookCommand, bookGenres);
 
         Book book;
         if (existedBook.isPresent()) {
@@ -32,9 +34,22 @@ public class BookService {
         } else {
             book = bookMapper.commandToEntity(bookCommand);
             book.setGenres(bookGenres);
+            book.setAuthor(author);
         }
         Book savedBook = bookRepository.save(book);
         return bookMapper.entityToDto(savedBook);
+    }
+
+    private Optional<Book> findEqualBook(BookCommand bookCommand, Set<Genre> bookGenres) {
+        return bookRepository.findByNameAndAuthorIdAndPublicationDateAndGenresIn(bookCommand.getName(),
+                bookCommand.getAuthorId(),
+                bookCommand.getPublicationDate(),
+                bookGenres);
+    }
+
+    private Author findAuthor(long id) {
+        return authorRepository.findById(id)
+                .orElseThrow(()->new ConflictException("Author with id " + id + " not found"));
     }
 
     @Transactional

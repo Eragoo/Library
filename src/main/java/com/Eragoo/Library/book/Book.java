@@ -1,5 +1,6 @@
 package com.Eragoo.Library.book;
 
+import com.Eragoo.Library.author.Author;
 import com.Eragoo.Library.genre.Genre;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,9 +17,14 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    private String author;
+
+    @ManyToOne
+    private Author author;
+
     private LocalDate publicationDate;
+
     private int amount;
 
     @ManyToMany
