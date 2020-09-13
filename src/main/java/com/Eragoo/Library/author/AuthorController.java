@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,7 +14,7 @@ public class AuthorController {
     private AuthorService authorService;
 
     @PostMapping
-    public ResponseEntity<AuthorDto> create(@RequestBody AuthorCommand command) {
+    public ResponseEntity<AuthorDto> create(@RequestBody @Valid AuthorCommand command) {
         AuthorDto dto = authorService.create(command);
         return ResponseEntity.ok(dto);
     }

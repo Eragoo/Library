@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,7 +14,7 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping
-    public ResponseEntity<BookDto> createOrAddIfExist(@RequestBody BookCommand command) {
+    public ResponseEntity<BookDto> createOrAddIfExist(@RequestBody @Valid BookCommand command) {
         BookDto dto = bookService.createOrAddIfExist(command);
         return ResponseEntity.ok(dto);
     }
