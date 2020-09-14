@@ -19,9 +19,9 @@ public class AuthenticationService {
 
 
     public Token getToken(@NotNull UserAuthenticationCommand userCommand) {
-        User user = userRepository.findByLogin(userCommand.getLogin());
+        User user = userRepository.findByUsername(userCommand.getUsername());
         verifyUsernameAndPassword(userCommand, user);
-        String providedToken = tokenProvider.createToken(user.getLogin(), user.getRole().getName());
+        String providedToken = tokenProvider.createToken(user.getUsername(), user.getRole().getName());
         return new Token(providedToken);
     }
 

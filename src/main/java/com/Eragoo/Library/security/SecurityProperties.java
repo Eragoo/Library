@@ -13,7 +13,7 @@ import java.time.Duration;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SecurityProps {
+public class SecurityProperties {
     private String signature;
     private Duration lifetime;
 }

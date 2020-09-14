@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class UserAuthenticationCommand {
-    @NotBlank(message = "Login must be not blank")
-    private String login;
+    @NotBlank(message = "Username must be not blank")
+    private String username;
     @NotBlank(message = "Password must be not blank")
     private String password;
 }
