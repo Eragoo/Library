@@ -18,10 +18,10 @@ public class AuthenticationService {
     private TokenProvider tokenProvider;
 
 
-    public Token getToken(@NotNull UserAuthenticationCommand command) {
-        User user = userRepository.findByLogin(command.getLogin());
-        verifyUsernameAndPassword(command, user);
-        String providedToken = tokenProvider.createToken(user.getLogin(), user.getRole());
+    public Token getToken(@NotNull UserAuthenticationCommand userCommand) {
+        User user = userRepository.findByLogin(userCommand.getLogin());
+        verifyUsernameAndPassword(userCommand, user);
+        String providedToken = tokenProvider.createToken(user.getLogin(), user.getRole().getName());
         return new Token(providedToken);
     }
 

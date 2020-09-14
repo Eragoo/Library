@@ -15,6 +15,6 @@ public class User {
     private Long id;
     private String login;
     private String password;
-    @Enumerated(value = EnumType.STRING)
+    @ManyToOne
     private Role role;
 }
