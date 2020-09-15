@@ -16,14 +16,14 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class TokenProvider {
     private static final String LOGIN_CLAIM = "login";
-    private static final String ROLE_CLAIM = "roleValue";
+    private static final String ROLE_CLAIM = "role";
 
     private SecurityProperties securityProperties;
 
     public String createToken(String login, RoleValue roleValue) {
         return Jwts.builder()
                 .claim(LOGIN_CLAIM, login)
-                .claim(ROLE_CLAIM, roleValue)
+                .claim(ROLE_CLAIM, roleValue.name())
                 .setExpiration(Date.from(Instant.now().plus(securityProperties.getLifetime())))
                 .signWith(Keys.hmacShaKeyFor(securityProperties.getSignature().getBytes()))
                 .compact();
@@ -35,9 +35,9 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        RoleValue roleValue = claims.get(ROLE_CLAIM, RoleValue.class);
+        String role = claims.get(ROLE_CLAIM, String.class);
         String login = claims.get(LOGIN_CLAIM, String.class);
-        AuthenticatedUser authenticatedUser = new AuthenticatedUser(login, roleValue.name());
+        AuthenticatedUser authenticatedUser = new AuthenticatedUser(login, role);
         return Optional.of(authenticatedUser);
     }
 }
