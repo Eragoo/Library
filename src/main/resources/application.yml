@@ -5,3 +5,8 @@ spring:
     password: ${DB_PASS:postgres}
   jpa:
     show-sql: true
+
+application:
+  security:
+    signature: ${SIGNATURE:test-spd-ukraine-library-signature}
+    lifetime: 1d
