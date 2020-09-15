@@ -15,15 +15,15 @@ public class GenreController {
     private GenreService genreService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority(T(com.Eragoo.Library.user.RoleValue).ADMIN)")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
     public ResponseEntity<GenreDto> create(@RequestBody @Valid GenreCommand command) {
         GenreDto genreDto = genreService.create(command);
         return ResponseEntity.ok(genreDto);
     }
 
     @GetMapping("/get-all")
-    @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Library.user.RoleValue).USER," +
-            "T(com.Eragoo.Library.user.RoleValue).ADMIN)")
+    @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Library.user.role.RoleValue).USER," +
+            "T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
     public ResponseEntity<List<GenreDto>> getAll() {
         List<GenreDto> all = genreService.getAll();
         return ResponseEntity.ok(all);

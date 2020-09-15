@@ -1,6 +1,6 @@
 package com.Eragoo.Library.security;
 
-import com.Eragoo.Library.user.RoleValue;
+import com.Eragoo.Library.user.role.RoleValue;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.Eragoo.Library.user;
+package com.Eragoo.Library.user.role;
 
 import lombok.Getter;
 import lombok.Setter;

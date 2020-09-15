@@ -1,4 +1,4 @@
-package com.Eragoo.Library.user;
+package com.Eragoo.Library.user.role;
 
 public enum RoleValue {
     ADMIN,
