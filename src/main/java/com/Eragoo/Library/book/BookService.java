@@ -24,6 +24,7 @@ public class BookService {
     private GenreRepository genreRepository;
     private AuthorRepository authorRepository;
 
+    @Transactional
     public BookDto createOrAddIfExist(BookCommand bookCommand) {
         Author author = findAuthor(bookCommand.getAuthorId());
 
