@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] permitUrls = new String[]{"/api/auth"};
+        String[] permitUrls = new String[]{"/api/auth", "/api/user/register"};
         http
                 .httpBasic().disable()
                 .csrf().disable()
