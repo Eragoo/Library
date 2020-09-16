@@ -10,7 +10,7 @@
 
 ### Аутентификация
 
-- Для роли USER - username: user; password: user
+- Для роли USER (роль по умолчанию) - username: user; password: user
 - Для роли ADMIN - username: admin; password: admin
 
 Для роли USER доступны следующие действия: 
