@@ -31,8 +31,7 @@ public class AuthenticationService {
         }
     }
 
-    private boolean isPasswordMatches(String expectedEncodedPassword, String receivedRawPassword) {
-        assert expectedEncodedPassword != null && receivedRawPassword != null;
+    private boolean isPasswordMatches(@NotNull String expectedEncodedPassword, @NotNull String receivedRawPassword) {
         return bCryptPasswordEncoder.matches(expectedEncodedPassword, receivedRawPassword);
     }
 }
