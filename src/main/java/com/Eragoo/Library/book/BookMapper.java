@@ -1,6 +1,8 @@
 package com.Eragoo.Library.book;
 
 import com.Eragoo.Library.author.AuthorMapper;
+import com.Eragoo.Library.book.dto.BookInputDto;
+import com.Eragoo.Library.book.dto.BookOutputDto;
 import com.Eragoo.Library.genre.GenreMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,7 +12,7 @@ public interface BookMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "genres", ignore = true)
-    Book commandToEntity(BookCommand command);
+    Book commandToEntity(BookInputDto command);
 
-    BookDto entityToDto(Book book);
+    BookOutputDto entityToDto(Book book);
 }

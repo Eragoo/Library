@@ -2,6 +2,8 @@ package com.Eragoo.Library.book;
 
 import com.Eragoo.Library.author.Author;
 import com.Eragoo.Library.author.AuthorRepository;
+import com.Eragoo.Library.book.dto.BookInputDto;
+import com.Eragoo.Library.book.dto.BookOutputDto;
 import com.Eragoo.Library.error.exception.ConflictException;
 import com.Eragoo.Library.error.exception.NotFoundException;
 import com.Eragoo.Library.genre.Genre;
@@ -19,24 +21,24 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BookService {
-    private BookRepository bookRepository;
-    private BookMapper bookMapper;
-    private GenreRepository genreRepository;
-    private AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
+    private final GenreRepository genreRepository;
+    private final AuthorRepository authorRepository;
 
     @Transactional
-    public BookDto createOrAddIfExist(BookCommand bookCommand) {
-        Author author = findAuthor(bookCommand.getAuthorId());
+    public BookOutputDto createOrAddIfExist(BookInputDto bookInputDto) {
+        Author author = findAuthor(bookInputDto.getAuthorId());
 
-        Set<Genre> bookGenres = genreRepository.findAllByIdIn(bookCommand.getGenreIds());
-        Optional<Book> equalBook = findEqualBook(bookCommand, bookGenres);
+        Set<Genre> bookGenres = genreRepository.findAllByIdIn(bookInputDto.getGenreIds());
+        Optional<Book> equalBook = findEqualBook(bookInputDto, bookGenres);
 
         Book book;
         if (equalBook.isPresent()) {
             book = equalBook.get();
-            book.setAmount(book.getAmount() + bookCommand.getAmount());
+            book.setAmount(book.getAmount() + bookInputDto.getAmount());
         } else {
-            book = bookMapper.commandToEntity(bookCommand);
+            book = bookMapper.commandToEntity(bookInputDto);
             book.setGenres(bookGenres);
             book.setAuthor(author);
         }
@@ -44,10 +46,10 @@ public class BookService {
         return bookMapper.entityToDto(savedBook);
     }
 
-    private Optional<Book> findEqualBook(BookCommand bookCommand, Set<Genre> bookGenres) {
-        return bookRepository.findByNameAndAuthorIdAndPublicationYearAndGenresIn(bookCommand.getName(),
-                bookCommand.getAuthorId(),
-                bookCommand.getPublicationYear(),
+    private Optional<Book> findEqualBook(BookInputDto bookInputDto, Set<Genre> bookGenres) {
+        return bookRepository.findByNameAndAuthorIdAndPublicationYearAndGenresIn(bookInputDto.getName(),
+                bookInputDto.getAuthorId(),
+                bookInputDto.getPublicationYear(),
                 bookGenres);
     }
 
@@ -57,14 +59,14 @@ public class BookService {
     }
 
     @Transactional
-    public BookDto returnBook(long id) {
+    public BookOutputDto returnBook(long id) {
         Book book = findBook(id);
         book.setAmount(book.getAmount() + 1);
         return bookMapper.entityToDto(book);
     }
 
     @Transactional
-    public BookDto lease(long id) {
+    public BookOutputDto lease(long id) {
         Book book = findBook(id);
         if (book.getAmount() < 1) {
             throw new ConflictException("Can't lease this book due to it's amount");
@@ -74,7 +76,7 @@ public class BookService {
         return bookMapper.entityToDto(book);
     }
 
-    public List<BookDto> getAll(BookFilteringCommand command) {
+    public List<BookOutputDto> getAll(BookFilter command) {
         Specification<Book> specification = command.toSpecification();
         return bookRepository.findAll(specification)
                 .stream()

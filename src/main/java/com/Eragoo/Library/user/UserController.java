@@ -1,5 +1,7 @@
 package com.Eragoo.Library.user;
 
+import com.Eragoo.Library.user.dto.UserInputDto;
+import com.Eragoo.Library.user.dto.UserOutputDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserCommand command) {
-        UserDto dto = userService.register(command);
+    public ResponseEntity<UserOutputDto> register(@RequestBody @Valid UserInputDto command) {
+        UserOutputDto dto = userService.register(command);
         return ResponseEntity.ok(dto);
     }
 }

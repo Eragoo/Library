@@ -1,5 +1,7 @@
 package com.Eragoo.Library.genre;
 
+import com.Eragoo.Library.genre.dto.GenreInputDto;
+import com.Eragoo.Library.genre.dto.GenreOutputDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,23 +11,23 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/genre")
+@RequestMapping("api/genres")
 @AllArgsConstructor
 public class GenreController {
     private GenreService genreService;
 
     @PostMapping
     @PreAuthorize("hasAuthority(T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
-    public ResponseEntity<GenreDto> create(@RequestBody @Valid GenreCommand command) {
-        GenreDto genreDto = genreService.create(command);
-        return ResponseEntity.ok(genreDto);
+    public ResponseEntity<GenreOutputDto> create(@RequestBody @Valid GenreInputDto command) {
+        GenreOutputDto genreOutputDto = genreService.create(command);
+        return ResponseEntity.ok(genreOutputDto);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Library.user.role.RoleValue).USER," +
             "T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
-    public ResponseEntity<List<GenreDto>> getAll() {
-        List<GenreDto> all = genreService.getAll();
+    public ResponseEntity<List<GenreOutputDto>> getAll() {
+        List<GenreOutputDto> all = genreService.getAll();
         return ResponseEntity.ok(all);
     }
 }

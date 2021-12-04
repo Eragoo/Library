@@ -10,7 +10,7 @@ import static com.Eragoo.Library.book.BookSpecification.*;
 
 @Getter
 @Setter
-public class BookFilteringCommand {
+public class BookFilter {
     private String name;
     private List<Long> authorIds;
     private Integer publicationYear;
