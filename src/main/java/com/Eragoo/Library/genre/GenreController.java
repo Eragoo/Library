@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("api/genres")
 @AllArgsConstructor
 public class GenreController {
-    private GenreService genreService;
+    private final GenreService genreService;
 
     @PostMapping
     @PreAuthorize("hasAuthority(T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")

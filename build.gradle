@@ -24,7 +24,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
 	implementation "io.springfox:springfox-boot-starter:$springfoxSwaggerVersion"
-	implementation "org.mapstruct:mapstruct:$mapstructVersion"
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
 	implementation'org.springframework.boot:spring-boot-starter-validation'
@@ -36,7 +35,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 
 	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 	annotationProcessor "org.hibernate:hibernate-jpamodelgen"
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 

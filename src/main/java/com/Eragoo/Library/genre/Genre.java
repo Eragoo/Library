@@ -1,6 +1,8 @@
 package com.Eragoo.Library.genre;
 
+import com.Eragoo.Library.genre.dto.GenreInputDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -12,11 +14,16 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Genre(GenreInputDto inputDto) {
+        this.name = inputDto.getName();
+    }
 
     @Override
     public boolean equals(Object o) {

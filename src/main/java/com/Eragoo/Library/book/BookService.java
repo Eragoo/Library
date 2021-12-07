@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
     private final GenreRepository genreRepository;
     private final AuthorRepository authorRepository;
 
@@ -38,12 +37,10 @@ public class BookService {
             book = equalBook.get();
             book.setAmount(book.getAmount() + bookInputDto.getAmount());
         } else {
-            book = bookMapper.commandToEntity(bookInputDto);
-            book.setGenres(bookGenres);
-            book.setAuthor(author);
+            book = new Book(bookInputDto, author, bookGenres);
         }
         Book savedBook = bookRepository.save(book);
-        return bookMapper.entityToDto(savedBook);
+        return new BookOutputDto(savedBook);
     }
 
     private Optional<Book> findEqualBook(BookInputDto bookInputDto, Set<Genre> bookGenres) {
@@ -61,26 +58,22 @@ public class BookService {
     @Transactional
     public BookOutputDto returnBook(long id) {
         Book book = findBook(id);
-        book.setAmount(book.getAmount() + 1);
-        return bookMapper.entityToDto(book);
+        book.returnBook();
+        return new BookOutputDto(book);
     }
 
     @Transactional
     public BookOutputDto lease(long id) {
         Book book = findBook(id);
-        if (book.getAmount() < 1) {
-            throw new ConflictException("Can't lease this book due to it's amount");
-        }
-        book.setAmount(book.getAmount() - 1);
-
-        return bookMapper.entityToDto(book);
+        book.lease();
+        return new BookOutputDto(book);
     }
 
     public List<BookOutputDto> getAll(BookFilter command) {
         Specification<Book> specification = command.toSpecification();
         return bookRepository.findAll(specification)
                 .stream()
-                .map(bookMapper::entityToDto)
+                .map(BookOutputDto::new)
                 .collect(Collectors.toList());
     }
 

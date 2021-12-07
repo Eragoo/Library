@@ -1,5 +1,7 @@
 package com.Eragoo.Library.author;
 
+import com.Eragoo.Library.author.dto.AuthorInputDto;
+import com.Eragoo.Library.author.dto.AuthorOutputDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,20 +14,20 @@ import java.util.List;
 @RequestMapping("api/author")
 @AllArgsConstructor
 public class AuthorController {
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     @PostMapping
     @PreAuthorize("hasAuthority(T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
-    public ResponseEntity<AuthorDto> create(@RequestBody @Valid AuthorCommand command) {
-        AuthorDto dto = authorService.create(command);
+    public ResponseEntity<AuthorOutputDto> create(@RequestBody @Valid AuthorInputDto command) {
+        AuthorOutputDto dto = authorService.create(command);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/get-all")
     @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Library.user.role.RoleValue).USER," +
             "T(com.Eragoo.Library.user.role.RoleValue).ADMIN)")
-    public ResponseEntity<List<AuthorDto>> getAll() {
-        List<AuthorDto> all = authorService.getAll();
+    public ResponseEntity<List<AuthorOutputDto>> getAll() {
+        List<AuthorOutputDto> all = authorService.getAll();
         return ResponseEntity.ok(all);
     }
 }

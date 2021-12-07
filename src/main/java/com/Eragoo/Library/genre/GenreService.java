@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class GenreService {
     private final GenreRepository genreRepository;
-    private final GenreMapper genreMapper;
 
     @Transactional
     public GenreOutputDto create(GenreInputDto command) {
         checkExistingGenreByName(command.getName());
-        Genre genre = genreMapper.commandToEntity(command);
+        Genre genre = new Genre(command);
         Genre savedGenre = genreRepository.save(genre);
-        return genreMapper.entityToDto(savedGenre);
+        return new GenreOutputDto(savedGenre);
     }
 
     private void checkExistingGenreByName(String name) {
@@ -35,7 +34,7 @@ public class GenreService {
     public List<GenreOutputDto> getAll() {
         return genreRepository.findAll()
                 .stream()
-                .map(genreMapper::entityToDto)
+                .map(GenreOutputDto::new)
                 .collect(Collectors.toList());
     }
 }

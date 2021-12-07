@@ -1,5 +1,7 @@
 package com.Eragoo.Library.author;
 
+import com.Eragoo.Library.author.dto.AuthorInputDto;
+import com.Eragoo.Library.author.dto.AuthorOutputDto;
 import com.Eragoo.Library.error.exception.ConflictException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,16 +13,15 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class AuthorService {
-    private AuthorRepository authorRepository;
-    private AuthorMapper authorMapper;
+    private final AuthorRepository authorRepository;
 
     @Transactional
-    public AuthorDto create(AuthorCommand authorCommand) {
+    public AuthorOutputDto create(AuthorInputDto authorCommand) {
         checkExistingAuthorByName(authorCommand.getName());
 
-        Author author = authorMapper.commandToEntity(authorCommand);
+        Author author = new Author(authorCommand);
         Author saved = authorRepository.save(author);
-        return authorMapper.entityToDto(saved);
+        return  new AuthorOutputDto(saved);
     }
 
     private void checkExistingAuthorByName(String name) {
@@ -30,10 +31,10 @@ public class AuthorService {
                 });
     }
 
-    public List<AuthorDto> getAll() {
+    public List<AuthorOutputDto> getAll() {
         return authorRepository.findAll()
                 .stream()
-                .map(authorMapper::entityToDto)
+                .map(AuthorOutputDto::new)
                 .collect(Collectors.toList());
     }
 }
